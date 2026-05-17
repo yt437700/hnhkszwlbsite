@@ -8,7 +8,7 @@
           <span
             class="position-absolute top-50 start-0 translate-middle-y w-25 border-top border-2 border-warning opacity-75"
           ></span>
-          <span class="px-3">服务范围</span>
+          <span class="px-3">范围</span>
           <span
             class="position-absolute top-50 end-0 translate-middle-y w-25 border-top border-2 border-warning opacity-75"
           ></span>
