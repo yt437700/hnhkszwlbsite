@@ -18,7 +18,7 @@ export const initGallery = () => {
   if ((imageModal as any)._galleryInitialized) {
     return
   }
-  (imageModal as any)._galleryInitialized = true
+  ;(imageModal as any)._galleryInitialized = true
 
   // 收集所有图片项
   const galleryItems = Array.from(document.querySelectorAll('.waterfall-item'))
@@ -37,7 +37,10 @@ export const initGallery = () => {
     // 根据筛选条件获取当前可见的图片项
     currentItems = galleryItems.filter((item) => {
       if (activeFilter === '*' || activeFilter === 'all') return true
-      return item.classList.contains(activeFilter.slice(1)) || item.querySelector(`[data-category="${activeFilter}"]`)
+      return (
+        item.classList.contains(activeFilter.slice(1)) ||
+        item.querySelector(`[data-category="${activeFilter}"]`)
+      )
     })
 
     // 获取当前点击项的索引
@@ -70,13 +73,15 @@ export const initGallery = () => {
     const fullSrc = button.getAttribute('data-full')
 
     // 更新模态框信息
-    modalTitle.textContent = title
-    modalDescription.textContent = description
+    if(modalTitle) modalTitle.textContent = title
+    if(modalDescription) modalDescription.textContent = description
     modalImage.alt = title
 
-    // 显示加载状态
-    imgLoading.style.display = 'flex'
-    imgLoading.style.opacity = '1'
+    if (imgLoading) {
+      // 显示加载状态
+      imgLoading.style.display = 'flex'
+      imgLoading.style.opacity = '1'
+    }
     modalImage.style.opacity = '0'
 
     // 重置图片源和事件
@@ -88,20 +93,28 @@ export const initGallery = () => {
     if (!previewSrc && !fullSrc) {
       console.error('图片源不存在')
       modalImage.alt = '图片不存在'
-      imgLoading.style.opacity = '0'
-      setTimeout(() => {
-        imgLoading.style.display = 'none'
-      }, 300)
+      if (imgLoading) {
+        imgLoading.style.opacity = '0'
+        setTimeout(() => {
+          imgLoading.style.display = 'none'
+        }, 300)
+      }
       return
     }
 
     // 如果当前图片已经是目标图片，直接显示
-    if ((fullSrc && modalImage.src === fullSrc) || (previewSrc && !fullSrc && modalImage.src === previewSrc)) {
+    if (
+      (fullSrc && modalImage.src === fullSrc) ||
+      (previewSrc && !fullSrc && modalImage.src === previewSrc)
+    ) {
       modalImage.style.opacity = '1'
-      imgLoading.style.opacity = '0'
-      setTimeout(() => {
-        imgLoading.style.display = 'none'
-      }, 300)
+
+      if (imgLoading) {
+        imgLoading.style.opacity = '0'
+        setTimeout(() => {
+          imgLoading.style.display = 'none'
+        }, 300)
+      }
       return
     }
 
@@ -116,10 +129,13 @@ export const initGallery = () => {
         } else {
           // 没有原图时直接显示预览图
           modalImage.style.opacity = '1'
-          imgLoading.style.opacity = '0'
-          setTimeout(() => {
-            imgLoading.style.display = 'none'
-          }, 300)
+
+          if (imgLoading) {
+            imgLoading.style.opacity = '0'
+            setTimeout(() => {
+              imgLoading.style.display = 'none'
+            }, 300)
+          }
         }
       }
       modalImage.onerror = function () {
@@ -137,20 +153,25 @@ export const initGallery = () => {
     if (!fullSrc) {
       // 如果没有原图，隐藏加载状态并显示预览图
       modalImage.style.opacity = '1'
-      imgLoading.style.opacity = '0'
-      setTimeout(() => {
-        imgLoading.style.display = 'none'
-      }, 300)
+
+      if (imgLoading) {
+        imgLoading.style.opacity = '0'
+        setTimeout(() => {
+          imgLoading.style.display = 'none'
+        }, 300)
+      }
       return
     }
 
     // 如果原图已经加载过，直接显示
     if (modalImage.src === fullSrc) {
       modalImage.style.opacity = '1'
-      imgLoading.style.opacity = '0'
-      setTimeout(() => {
-        imgLoading.style.display = 'none'
-      }, 300)
+      if (imgLoading) {
+        imgLoading.style.opacity = '0'
+        setTimeout(() => {
+          imgLoading.style.display = 'none'
+        }, 300)
+      }
       return
     }
 
@@ -170,19 +191,21 @@ export const initGallery = () => {
       }, 50)
 
       // 隐藏加载状态
-      imgLoading.style.transition = 'opacity 0.3s ease-in-out'
-      imgLoading.style.opacity = '0'
-      setTimeout(() => {
-        imgLoading.style.display = 'none'
-      }, 300)
+      if (imgLoading) {
+        imgLoading.style.transition = 'opacity 0.3s ease-in-out'
+        imgLoading.style.opacity = '0'
+        setTimeout(() => {
+          imgLoading.style.display = 'none'
+        }, 300)
+      }
     }
     fullImage.onerror = function () {
       console.error('大图加载失败:', fullSrc)
       // 隐藏加载状态，但保持预览图（如果有）
-      imgLoading.style.transition = 'opacity 0.3s ease-in-out'
-      imgLoading.style.opacity = '0'
+      imgLoading!.style.transition = 'opacity 0.3s ease-in-out'
+      imgLoading!.style.opacity = '0'
       setTimeout(() => {
-        imgLoading.style.display = 'none'
+        imgLoading!.style.display = 'none'
         // 如果有预览图且未加载，则尝试重新加载预览图
         const previewSrc = modalImage.getAttribute('data-preview')
         if (previewSrc && modalImage.src !== previewSrc) {
@@ -223,9 +246,9 @@ export const initGallery = () => {
     if (!imageModal || !imageModal.classList.contains('show')) return
 
     if (e.key === 'ArrowLeft') {
-      (prevBtn as HTMLElement)?.click()
+      ;(prevBtn as HTMLElement)?.click()
     } else if (e.key === 'ArrowRight') {
-      (nextBtn as HTMLElement)?.click()
+      ;(nextBtn as HTMLElement)?.click()
     } else if (e.key === 'Escape') {
       const modalInstance = (window as any).bootstrap?.Modal?.getInstance(imageModal)
       modalInstance?.hide()
@@ -246,9 +269,9 @@ export const initGallery = () => {
       galleryItemsAll.forEach((item) => {
         const category = item.querySelector('.view-btn')?.getAttribute('data-category')
         if (filterValue === 'all' || filterValue === '*' || category === filterValue) {
-          (item as HTMLElement).style.display = 'block'
+          ;(item as HTMLElement).style.display = 'block'
         } else {
-          (item as HTMLElement).style.display = 'none'
+          ;(item as HTMLElement).style.display = 'none'
         }
       })
     })

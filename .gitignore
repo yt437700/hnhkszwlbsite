@@ -44,3 +44,5 @@ test-results/
 playwright-report/
 server.js
 node_modules
+.vscode/extensions.json
+.vite-ssg-temp/

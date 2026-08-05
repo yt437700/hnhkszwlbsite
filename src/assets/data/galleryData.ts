@@ -51,6 +51,8 @@ import image5Full from '@/assets/images/67061396b32d7.jpg'
 import image5Preview from '@/assets/images/preview_67061396b32d7.jpg'
 import image6Full from '@/assets/images/67061381b0bc2.jpg'
 import image6Preview from '@/assets/images/preview_67061381b0bc2.jpg'
+import image7Full from '@/assets/images/dfc2cb6e-55d2-42ea-803f-27828495ccce.jpg'
+import image7Preview from '@/assets/images/preview_dfc2cb6e-55d2-42ea-803f-27828495ccce.jpg'
 
 export const galleryData: GalleryItem[] = [
   {
@@ -59,6 +61,15 @@ export const galleryData: GalleryItem[] = [
     description: '24届喊楼时网络部23，24，25届的珍贵合照',
     preview: image1Preview,
     full: image1Full,
+    category: 'team',
+    alt: '网络部合照',
+  },
+  {
+    id: '7',
+    title: '团队合照',
+    description: '24届阳光体育界晚上社团日活动时网络部26，27，28届的珍贵合照',
+    preview: image7Preview,
+    full: image7Full,
     category: 'team',
     alt: '网络部合照',
   },

@@ -7,8 +7,9 @@ export interface BenefitItem {
 
 export const benefitsData: BenefitItem[] = [
   {
-    title: '活动室使用权',
-    description: '可使用学校小礼堂作为活动空间，为部门活动提供便利场所。',
+    // 新校长严格管理小礼堂使用，确保安全和规范，不允许随意使用设备
+    title: '活动室使用权 (提前申请)',
+    description: '经允许后，可使用学校小礼堂作为活动空间，为部门活动提供便利场所。',
     icon: 'bi-house-door-fill',
   },
   {

@@ -29,6 +29,9 @@
             <a class="nav-link" href="#benefits">各种福利</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/compare">我们 vs 老师</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#关于">关于</a>
           </li>
         </ul>

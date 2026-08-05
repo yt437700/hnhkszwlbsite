@@ -1,11 +1,17 @@
 // @/src/router/index.ts
 import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
-import App from '@/App.vue'
+import Home from '@/pages/Home.vue'
+import ComparePage from '@/pages/ComparePage.vue'
 const routes = [
   {
     path: '/',          // 根路径
     name: 'home',
-    component: App,     // 直接渲染 App
+    component: Home,     // 直接渲染 Home
+  },
+  {
+    path: '/compare',
+    name: 'compare',
+    component: ComparePage,
   },
 ]
 const router = createRouter({

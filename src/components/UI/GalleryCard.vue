@@ -1,5 +1,4 @@
 <!-- src/components/UI/GalleryCard.vue -->
-<!-- src/components/UI/GalleryCard.vue -->
 <template>
   <div class="gallery-card">
     <div class="position-relative overflow-hidden">

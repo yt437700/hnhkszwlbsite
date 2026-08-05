@@ -10,7 +10,7 @@
       <!-- 筛选按钮 -->
       <div class="gallery-filter">
         <button class="filter-btn" :class="{ active: activeFilter === 'all' }" @click="activeFilter = 'all'">
-          全部活动
+          所有照片
         </button>
         <button class="filter-btn" :class="{ active: activeFilter === 'event' }" @click="activeFilter = 'event'">
           活动现场
@@ -32,7 +32,6 @@
       </div>
     </div>
 
-    <!-- 图片模态框 -->
     <!-- 图片模态框 -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-fullscreen">
