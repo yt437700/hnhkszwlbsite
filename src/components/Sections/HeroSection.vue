@@ -7,7 +7,7 @@
         <div class="carousel-inner h-100">
           <div v-for="(slide, index) in slides" :key="index" class="carousel-item h-100"
             :class="{ active: slide.active }">
-            <img :data-src="slide.image" class="lazyload d-block w-100 h-100" style="object-fit: cover"
+            <img :src="slide.image" class="d-block w-100 h-100" style="object-fit: cover"
               :alt="slide.alt" />
           </div>
         </div>
