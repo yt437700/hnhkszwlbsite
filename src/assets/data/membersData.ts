@@ -49,9 +49,9 @@ import avatar_24 from '@/assets/images/avatar/c99d1be3-b86f-4876-b145-f59a989ac1
 import avatar_25 from '@/assets/images/avatar/ed32a27d-ac14-48a8-9075-248c68ca59f2.jpg'
 import avatar_26 from '@/assets/images/avatar/e44bfedb-7c51-4b55-ad11-1af2d95868d0.jpg'
 
-import avatar_2028_1 from '@/assets/images/cwdxl.jpg'
-import avatar_2028_2 from '@/assets/images/wgh.jpg'
-import avatar_2028_3 from '@/assets/images/wfr.jpg'
+import avatar_2028_1 from '@/assets/images/avatar/bef3ee70-3bee-4bb8-819a-f967876c5380.jpg'
+import avatar_2028_2 from '@/assets/images/avatar/a28a3e54-f9e2-4c25-8589-3cda4f1894c0.jpg'
+import avatar_2028_3 from '@/assets/images/avatar/aa931cee-0648-4755-8c95-c90d1f59ac42.jpg'
 
 export const membersData: Record<string, Member[]> = {
   '2028': [
