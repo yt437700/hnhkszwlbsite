@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- 占位头像：默认背景 + 人物剪影 -->
+  <rect width="200" height="200" rx="100" fill="#4f6ef7"/>
+  <circle cx="100" cy="78" r="34" fill="#ffffff" opacity="0.92"/>
+  <path d="M100 128 C 58 128 44 162 44 162 L 156 162 C 156 162 142 128 100 128 Z" fill="#ffffff" opacity="0.92"/>
+</svg>
