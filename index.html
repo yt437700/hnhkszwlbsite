@@ -10,6 +10,41 @@
       content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求"
     />
     <meta name="keywords" content="海口市第四中学网络部" />
+    <style>
+      #before-app-mounted {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 9999;
+      }
+
+      #before-app-mounted > div {
+        animation: fadeIn 800ms ease both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      #before-app-mounted.fade-out {
+        animation: fadeOut 600ms ease forwards;
+        pointer-events: none;
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -39,7 +74,7 @@
               letter-spacing: 0.15em;
             "
           >
-            网络技术部
+            海口市第四中学网络部
           </h1>
           <p
             class="brand-en"
@@ -102,43 +137,9 @@
       </div>
     </div>
 
-    <div id="app"></div>
+    <div style="display: none;" id="app"></div>
 
-    <style>
-      #before-app-mounted {
-        position: fixed;
-        inset: 0;
-        background: #000;
-        z-index: 9999;
-      }
-
-      #before-app-mounted > div {
-        animation: fadeIn 800ms ease both;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      #before-app-mounted.fade-out {
-        animation: fadeOut 600ms ease forwards;
-        pointer-events: none;
-      }
-
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
-      }
-    </style>
+    
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
