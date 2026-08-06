@@ -1,29 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>海口市第四中学网络部官方网站</title>
+    <meta
+      name="description"
+      content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求"
+    />
+    <meta name="keywords" content="海口市第四中学网络部" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>海口市第四中学网络部官方网站</title>
-  <meta name="description" content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求">
-  <meta name="keywords" content="海口市第四中学网络部">
+  <body>
+    <!-- 页面加载完前文字和动画 -->
+    <div id="before-app-mounted">
+      <noscript>You need to enable JavaScript to run this Website.</noscript>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+        "
+      >
+        <div
+          class="element-loader"
+          style="
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div class="element-loader-circle">
+            <svg viewBox="0 0 50 50" style="animation: 2s linear infinite rotate">
+              <circle
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke-width="4"
+                id="loader-path"
+                style="animation: 1.5s ease-in-out infinite dash; stroke: rgb(64, 158, 255)"
+              ></circle>
+            </svg>
+          </div>
+        </div>
+        <p class="loading-title">Loading</p>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet"
-    href="https://static-ir4-in6.yt437700.top/resources/bootstrap/5.3.3-dist/css/bootstrap.min.css" />
+        <div class="loading-error" style="display: none">
+          <div class="error-title">Error</div>
+          <div class="error-message"></div>
+          <button class="error-button" onclick="location.reload()">Reload</button>
+        </div>
+      </div>
+    </div>
+    <div id="app"></div>
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet"
-    href="https://static-ir4-in6.yt437700.top/resources/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+      /* Element UI风格加载器 - 修复版 */
+      .element-loader {
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
 
-  <!-- Bootstrap JS Bundle with Popper -->
-  <script src="https://static-ir4-in6.yt437700.top/resources/bootstrap/5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-</head>
+      .element-loader-circle {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
 
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
+      .element-loader-circle svg {
+        width: 100%;
+        height: 100%;
+        animation: rotate 2s linear infinite;
+        transform-origin: center center;
+      }
 
+      .element-loader-circle path {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke: #409eff;
+        stroke-width: 4;
+        fill: none;
+      }
+
+      /* 修复旋转动画 */
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* 修复笔画动画 */
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 1, 150;
+          stroke-dashoffset: 0;
+        }
+
+        50% {
+          stroke-dasharray: 90, 150;
+          stroke-dashoffset: -35;
+        }
+
+        100% {
+          stroke-dasharray: 90, 150;
+          stroke-dashoffset: -124;
+        }
+      }
+    </style>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
