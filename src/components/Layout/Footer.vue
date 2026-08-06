@@ -13,7 +13,7 @@
                 <span class="fw-semibold">QQ群:</span>
                 <a
                   id="进群链接"
-                  href="https://qm.qq.com/q/5gVlLLYjtC"
+                  href="https://qm.qq.com/q/HWrYTzo2EU"
                   class="text-decoration-none ms-2 text-muted"
                   target="_blank"
                 >
