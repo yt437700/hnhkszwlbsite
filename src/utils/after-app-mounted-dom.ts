@@ -1,3 +1,19 @@
+function updateProgress(percent: number) {
+    try {
+        const beforeAppMounted = document.getElementById('before-app-mounted');
+        if (!beforeAppMounted) return;
+
+        const progressFg = beforeAppMounted.querySelector('.progress-fg') as HTMLElement | null;
+        if (progressFg) {
+            const clamped = Math.max(0, Math.min(100, percent));
+            progressFg.style.transform = `scaleX(${clamped / 100})`;
+        }
+    }
+    catch {
+        // 忽略 DOM 操作错误
+    }
+}
+
 async function setAppLoadingError(errorMessage: unknown) {
     try {// 精确定位到 #before-app-mounted 内的 loading-error 和 error-message 元素
         const beforeAppMounted = document.getElementById('before-app-mounted');
@@ -64,5 +80,6 @@ function removeLoadingContainer() {
 export {
     setAppLoadingError,
     setLoadingTitle,
-    removeLoadingContainer
+    removeLoadingContainer,
+    updateProgress
 }

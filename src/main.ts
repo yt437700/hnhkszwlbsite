@@ -99,29 +99,34 @@ async function initapp() {
       })
     }
 
-    const { setLoadingTitle, removeLoadingContainer } = await import(
+    const { setLoadingTitle, removeLoadingContainer, updateProgress } = await import(
       '@/utils/after-app-mounted-dom'
     )
 
+    updateProgress(5)
     setLoadingTitle('Downloading BootStrap ...')
 
     await loadCSS(
       'https://static-cf4-cf6.yt437700.top/resources/bootstrap/5.3.3-dist/css/bootstrap.min.css',
     )
+    updateProgress(15)
     await loadScript(
       'https://static-cf4-cf6.yt437700.top/resources/bootstrap/5.3.3-dist/js/bootstrap.bundle.min.js',
     )
 
+    updateProgress(35)
     setLoadingTitle('Downloading BootStrap Icons ...')
     await loadCSS(
       'https://static-cf4-cf6.yt437700.top/resources/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
     )
     preloadBootstrapIcons()
 
+    updateProgress(50)
     await loadScript(
       'https://static-cf4-cf6.yt437700.top/resources/plyr/release_latest/plyr.min.js',
     )
     await loadCSS('https://static-cf4-cf6.yt437700.top/resources/plyr/release_latest/plyr.min.css')
+    updateProgress(65)
     setLoadingTitle('Initializing Application...')
     await new Promise((resolve) => setTimeout(resolve, 100))
 
@@ -130,6 +135,7 @@ async function initapp() {
     const { default: App } = await import('./App.vue') // 改成解构
     const { default: router } = await import('./router') // 正确获取默认导出
 
+    updateProgress(85)
     // 使用 ViteSSG 代替 createApp
     const createApp = ViteSSG(
       App,
@@ -146,12 +152,14 @@ async function initapp() {
       },
     )
 
+    updateProgress(95)
     setLoadingTitle('Rendering Application...')
     // app.mount('#app')
     waitForPageChange().then(() => {
       // removeLoadingContainer();
       waitForPageChange().then(() => {
-        removeLoadingContainer()
+        updateProgress(100)
+        setTimeout(() => removeLoadingContainer(), 250)
       })
     })
 
