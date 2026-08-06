@@ -1,29 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>海口市第四中学网络部官方网站</title>
+    <meta
+      name="description"
+      content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求"
+    />
+    <meta name="keywords" content="海口市第四中学网络部" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>海口市第四中学网络部官方网站</title>
-  <meta name="description" content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求">
-  <meta name="keywords" content="海口市第四中学网络部">
+  <body>
+    <!-- 页面加载完前文字和动画 -->
+    <div id="before-app-mounted">
+      <noscript>这个网站需要javascript才可以运行，请启用javascript.</noscript>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          background: #000;
+          color: #fff;
+          font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+          gap: 1.5rem;
+        "
+      >
+        <div class="brand" style="text-align: center">
+          <h1
+            class="brand-cn"
+            style="
+              font-size: 1.75rem;
+              font-weight: 600;
+              margin: 0 0 0.25rem 0;
+              letter-spacing: 0.15em;
+            "
+          >
+            网络技术部
+          </h1>
+          <p
+            class="brand-en"
+            style="
+              font-size: 0.85rem;
+              margin: 0;
+              letter-spacing: 0.3em;
+              color: rgba(255, 255, 255, 0.55);
+              text-transform: uppercase;
+            "
+          >
+            Network Department
+          </p>
+        </div>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet"
-    href="https://static-ir4-in6.yt437700.top/resources/bootstrap/5.3.3-dist/css/bootstrap.min.css" />
+        <div
+          class="progress"
+          style="
+            width: 14rem;
+            max-width: 60vw;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+          "
+        >
+          <div
+            class="progress-fg"
+            style="
+              position: absolute;
+              inset: 0;
+              background: #fff;
+              transform-origin: left center;
+              transform: scaleX(0);
+              transition: transform 0.35s ease;
+              will-change: transform;
+            "
+          ></div>
+        </div>
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet"
-    href="https://static-ir4-in6.yt437700.top/resources/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        <p
+          class="loading-title"
+          style="
+            font-size: 0.75rem;
+            margin: 0;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+          "
+        >
+          Loading
+        </p>
 
-  <!-- Bootstrap JS Bundle with Popper -->
-  <script src="https://static-ir4-in6.yt437700.top/resources/bootstrap/5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-</head>
+        <div class="loading-error" style="display: none">
+          <div class="error-title">Error</div>
+          <div class="error-message"></div>
+          <button class="error-button" onclick="location.reload()">Reload</button>
+        </div>
+      </div>
+    </div>
 
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
+    <div id="app"></div>
 
+    <style>
+      #before-app-mounted {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 9999;
+      }
+
+      #before-app-mounted > div {
+        animation: fadeIn 800ms ease both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      #before-app-mounted.fade-out {
+        animation: fadeOut 600ms ease forwards;
+        pointer-events: none;
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
