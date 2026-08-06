@@ -29,6 +29,15 @@ async function preloadImages(urls: string[]): Promise<void> {
     await Promise.all(promises)
 }
 
+function preloadImagesInBackground(urls: string[]): void {
+    if (!urls.length) return
+
+    urls.forEach(url => {
+        const img = new Image()
+        img.src = url
+    })
+}
+
 async function setAppLoadingError(errorMessage: unknown) {
     try {// 精确定位到 #before-app-mounted 内的 loading-error 和 error-message 元素
         const beforeAppMounted = document.getElementById('before-app-mounted');
@@ -122,5 +131,6 @@ export {
     removeLoadingContainer,
     updateProgress,
     fadeOutAndRemove,
-    preloadImages
+    preloadImages,
+    preloadImagesInBackground
 }

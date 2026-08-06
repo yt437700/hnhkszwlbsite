@@ -21,9 +21,10 @@ export const createApp = ViteSSG(
         updateProgress,
         fadeOutAndRemove,
         preloadImages,
+        preloadImagesInBackground,
       } = await import('./utils/after-app-mounted-dom')
 
-      const { getPreloadImages } = await import('./utils/image-preload')
+      const { getPreloadImages, getHeroImages } = await import('./utils/image-preload')
 
       const loadCSS = (url: string): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -114,11 +115,16 @@ export const createApp = ViteSSG(
         'https://static-cf4-cf6.yt437700.top/resources/plyr/release_latest/plyr.min.css',
       )
 
-      setLoadingTitle('Preloading Images...')
-      const imageUrls = getPreloadImages()
-      if (imageUrls.length > 0) {
+      setLoadingTitle('Preloading Hero Images...')
+      const heroUrls = getHeroImages()
+      if (heroUrls.length > 0) {
         updateProgress(55)
-        await preloadImages(imageUrls)
+        await preloadImages(heroUrls)
+      }
+
+      const otherUrls = getPreloadImages()
+      if (otherUrls.length > 0) {
+        preloadImagesInBackground(otherUrls)
       }
 
       updateProgress(92)

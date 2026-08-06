@@ -3,12 +3,12 @@ import { galleryData } from '@/assets/data/galleryData'
 import { workData } from '@/assets/data/workData'
 import { membersData } from '@/assets/data/membersData'
 
+export function getHeroImages(): string[] {
+    return heroSlides.map(slide => slide.image).filter(Boolean)
+}
+
 export function getPreloadImages(): string[] {
     const urls = new Set<string>()
-
-    heroSlides.forEach(slide => {
-        if (slide.image) urls.add(slide.image)
-    })
 
     galleryData.forEach(item => {
         if (item.preview) urls.add(item.preview)
