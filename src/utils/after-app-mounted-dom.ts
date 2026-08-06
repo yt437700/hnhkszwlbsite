@@ -85,6 +85,15 @@ function fadeOutAndRemove(callback?: () => void) {
         return;
     }
 
+    const app = document.getElementById('app');
+    if (!app) {
+        callback?.();
+        return;
+    }
+
+    app.style.display = '';
+
+    container.classList.remove('fade-out');
     container.classList.add('fade-out');
 
     setTimeout(() => {
