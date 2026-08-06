@@ -20,7 +20,10 @@ export const createApp = ViteSSG(
         removeLoadingContainer,
         updateProgress,
         fadeOutAndRemove,
+        preloadImages,
       } = await import('./utils/after-app-mounted-dom')
+
+      const { getPreloadImages } = await import('./utils/image-preload')
 
       const loadCSS = (url: string): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -85,39 +88,41 @@ export const createApp = ViteSSG(
         })
       }
 
-      updateProgress(5)
+      updateProgress(8)
       setLoadingTitle('Downloading BootStrap ...')
 
       await loadCSS(
         'https://static-cf4-cf6.yt437700.top/resources/bootstrap/5.3.3-dist/css/bootstrap.min.css',
       )
-      updateProgress(15)
+      updateProgress(24)
       await loadScript(
         'https://static-cf4-cf6.yt437700.top/resources/bootstrap/5.3.3-dist/js/bootstrap.bundle.min.js',
       )
 
-      updateProgress(35)
+      updateProgress(36)
       setLoadingTitle('Downloading BootStrap Icons ...')
       await loadCSS(
         'https://static-cf4-cf6.yt437700.top/resources/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
       )
       preloadBootstrapIcons()
 
-      updateProgress(50)
+      updateProgress(44)
       await loadScript(
         'https://static-cf4-cf6.yt437700.top/resources/plyr/release_latest/plyr.min.js',
       )
       await loadCSS(
         'https://static-cf4-cf6.yt437700.top/resources/plyr/release_latest/plyr.min.css',
       )
-      updateProgress(65)
+
+      setLoadingTitle('Preloading Images...')
+      const imageUrls = getPreloadImages()
+      if (imageUrls.length > 0) {
+        updateProgress(55)
+        await preloadImages(imageUrls)
+      }
+
+      updateProgress(92)
       setLoadingTitle('Initializing Application...')
-      await new Promise((resolve) => setTimeout(resolve, 100))
-
-      updateProgress(85)
-
-      updateProgress(95)
-      setLoadingTitle('Rendering Application...')
       waitForPageChange().then(() => {
         waitForPageChange().then(() => {
           updateProgress(100)
