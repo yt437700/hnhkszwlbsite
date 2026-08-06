@@ -19,6 +19,7 @@ export const createApp = ViteSSG(
         setLoadingTitle,
         removeLoadingContainer,
         updateProgress,
+        fadeOutAndRemove,
       } = await import('./utils/after-app-mounted-dom')
 
       const loadCSS = (url: string): Promise<void> => {
@@ -120,7 +121,7 @@ export const createApp = ViteSSG(
       waitForPageChange().then(() => {
         waitForPageChange().then(() => {
           updateProgress(100)
-          setTimeout(() => removeLoadingContainer(), 250)
+          fadeOutAndRemove()
         })
       })
     }

@@ -124,6 +124,20 @@
           opacity: 1;
         }
       }
+
+      #before-app-mounted.fade-out {
+        animation: fadeOut 600ms ease forwards;
+        pointer-events: none;
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
     </style>
     <script type="module" src="/src/main.ts"></script>
   </body>

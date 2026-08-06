@@ -77,9 +77,25 @@ function removeLoadingContainer() {
         } catch { }
     }
 }
+
+function fadeOutAndRemove(callback?: () => void) {
+    const container = document.getElementById('before-app-mounted');
+    if (!container) {
+        callback?.();
+        return;
+    }
+
+    container.classList.add('fade-out');
+
+    setTimeout(() => {
+        container.remove();
+        callback?.();
+    }, 600);
+}
 export {
     setAppLoadingError,
     setLoadingTitle,
     removeLoadingContainer,
-    updateProgress
+    updateProgress,
+    fadeOutAndRemove
 }
