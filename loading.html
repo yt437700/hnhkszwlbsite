@@ -96,6 +96,19 @@
         background: #000;
         z-index: 9999;
       }
+
+      #before-app-mounted > div {
+        animation: fadeIn 800ms ease both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     </style>
   </body>
 </html>
