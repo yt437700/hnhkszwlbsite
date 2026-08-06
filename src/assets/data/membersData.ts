@@ -49,11 +49,30 @@ import avatar_24 from '@/assets/images/avatar/c99d1be3-b86f-4876-b145-f59a989ac1
 import avatar_25 from '@/assets/images/avatar/ed32a27d-ac14-48a8-9075-248c68ca59f2.jpg'
 import avatar_26 from '@/assets/images/avatar/e44bfedb-7c51-4b55-ad11-1af2d95868d0.jpg'
 
-// import avatar_2028_1 from 
+import avatar_2028_1 from '@/assets/images/cwdxl.jpg'
+import avatar_2028_2 from '@/assets/images/wgh.jpg'
+import avatar_2028_3 from '@/assets/images/wfr.jpg'
 
 export const membersData: Record<string, Member[]> = {
   '2028': [
-
+    {
+      avatar: avatar_2028_1,
+      name: '沉稳的小李',
+      position: '部长',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_2,
+      name: '_時間門外',
+      position: '副部长',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_3,
+      name: 'Tobeall',
+      position: '副部长',
+      year: '2028',
+    },
   ],
   '2027': [
     {
