@@ -4,9 +4,9 @@ export interface Slide {
   alt: string
   active?: boolean
 }
-import heroImage1 from '@/assets/images/slide/670613988744c.jpg'
-import heroImage2 from '@/assets/images/slide/670613968e908.jpg'
-import heroImage3 from '@/assets/images/slide/670613950c57a.jpg'
+import heroImage1 from '/public/images/slide/670613968e908.jpg'
+import heroImage2 from '/public/images/slide/670613968e908.jpg'
+import heroImage3 from '/public/images/slide/670613950c57a.jpg'
 
 export const heroSlides: Slide[] = [
   {

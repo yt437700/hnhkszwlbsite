@@ -10,6 +10,61 @@
       content="页面介绍了海口市第四中学团委学生会网络管理部，并列举了工作内容和要求"
     />
     <meta name="keywords" content="海口市第四中学网络部" />
+    <style>
+      #before-app-mounted {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 9999;
+        opacity: 0;
+        animation: fadeIn 400ms ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      #before-app-mounted.fade-out {
+        animation: fadeOut 600ms ease forwards;
+        pointer-events: none;
+      }
+
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+
+      .loading-line {
+        width: 120px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .loading-line::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #fdd835;
+        transform-origin: left center;
+        animation: lineMove 1.2s ease-in-out infinite;
+      }
+
+      @keyframes lineMove {
+        0% { transform: scaleX(0); transform-origin: left center; }
+        49% { transform: scaleX(1); transform-origin: left center; }
+        50% { transform: scaleX(1); transform-origin: right center; }
+        100% { transform: scaleX(0); transform-origin: right center; }
+      }
+    </style>
+    <link rel="preload" as="image" href="/images/slide/670613950c57a.jpg" />
+    <link rel="preload" as="image" href="/images/slide/670613968e908.jpg" />
   </head>
 
   <body>
@@ -34,20 +89,20 @@
             class="brand-cn"
             style="
               font-size: 1.75rem;
-              font-weight: 600;
-              margin: 0 0 0.25rem 0;
-              letter-spacing: 0.15em;
+              font-weight: 700;
+              margin: 0;
+              letter-spacing: 0.25em;
             "
           >
-            网络技术部
+            网络部
           </h1>
           <p
             class="brand-en"
             style="
               font-size: 0.85rem;
-              margin: 0;
-              letter-spacing: 0.3em;
-              color: rgba(255, 255, 255, 0.55);
+              margin: 0.5rem 0 0 0;
+              letter-spacing: 0.35em;
+              color: rgba(255, 255, 255, 0.6);
               text-transform: uppercase;
             "
           >
@@ -55,39 +110,15 @@
           </p>
         </div>
 
-        <div
-          class="progress"
-          style="
-            width: 14rem;
-            max-width: 60vw;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-          "
-        >
-          <div
-            class="progress-fg"
-            style="
-              position: absolute;
-              inset: 0;
-              background: #fff;
-              transform-origin: left center;
-              transform: scaleX(0);
-              transition: transform 0.35s ease;
-              will-change: transform;
-            "
-          ></div>
-        </div>
+        <div class="loading-line"></div>
 
         <p
           class="loading-title"
           style="
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             margin: 0;
-            letter-spacing: 0.2em;
-            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.35);
             text-transform: uppercase;
           "
         >
@@ -102,43 +133,9 @@
       </div>
     </div>
 
-    <div id="app"></div>
+    <div style="display: none;" id="app"></div>
 
-    <style>
-      #before-app-mounted {
-        position: fixed;
-        inset: 0;
-        background: #000;
-        z-index: 9999;
-      }
-
-      #before-app-mounted > div {
-        animation: fadeIn 800ms ease both;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      #before-app-mounted.fade-out {
-        animation: fadeOut 600ms ease forwards;
-        pointer-events: none;
-      }
-
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
-      }
-    </style>
+    
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

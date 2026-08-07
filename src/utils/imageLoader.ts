@@ -63,68 +63,32 @@ export const initImageLoader = () => {
     console.log('重置懒查询计数器')
   }
 
-  // 图片加载函数
+  // 图片加载函数 - 使用原生img加载，复用浏览器缓存
   const setimg = async (element: HTMLImageElement, url: string): Promise<boolean> => {
     console.log('setimg 函数开始执行，URL:', url)
-    const alt = element.alt
-    console.log('保存原始alt文本:', alt)
 
-    element.src = ''
-    element.alt = '加载中...'
-    console.log('清空图片src并设置加载中状态')
+    return new Promise((resolve) => {
+      element.alt = '加载中...'
 
-    try {
-      console.log('开始获取图片资源:', url)
-      const response = await fetch(url)
-      console.log('获取图片响应:', {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        headers: Array.from(response.headers.entries())
-          .map(([key, value]) => `${key}: ${value}`)
-          .join(', '),
-      })
-
-      if (!response.ok) {
-        console.error('图片响应状态异常:', response.status, response.statusText)
-        throw new Error(`状态码异常:${response.status}`)
+      const img = new Image()
+      img.onload = () => {
+        element.src = url
+        element.alt = img.alt || element.alt
+        element.classList.remove('lazyload')
+        console.log('图片加载完成:', url)
+        resolve(true)
       }
-
-      console.log('开始读取图片数据...')
-      const blob = await response.blob()
-      console.log('图片数据读取完成，blob类型:', blob.type, '大小:', blob.size, 'bytes')
-
-      const objectUrl = URL.createObjectURL(blob)
-      console.log('创建对象URL:', objectUrl)
-
-      element.src = objectUrl
-      element.alt = alt
-      console.log('设置图片src和alt完成')
-
-      element.onload = () => {
-        // 尝试移除.lazyload类名
-        try {
-          element.classList.remove('lazyload')
-        } catch (e) {
-          console.error('移除.lazyload类名时出错:', e)
+      img.onerror = () => {
+        console.error('图片加载失败:', url)
+        element.alt = '点击重载'
+        element.onclick = () => {
+          setimg(element, url)
         }
-        console.log('图片加载完成，释放对象URL:', objectUrl)
-        URL.revokeObjectURL(objectUrl)
+        resolve(false)
       }
-
-      return true
-    } catch (e) {
-      console.error('图片加载过程中出错:', e)
-      element.alt = '点击重载'
-      console.warn('图片加载失败，设置点击重载功能')
-
-      element.onclick = () => {
-        console.log('用户点击重载图片，URL:', url)
-        setimg(element, url)
-      }
-
-      return false
-    }
+      img.src = url
+      img.alt = element.alt
+    })
   }
 
   // 自动设置图片函数

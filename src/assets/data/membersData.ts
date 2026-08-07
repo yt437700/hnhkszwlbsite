@@ -52,6 +52,7 @@ import avatar_26 from '@/assets/images/avatar/e44bfedb-7c51-4b55-ad11-1af2d95868
 import avatar_2028_1 from '@/assets/images/avatar/bef3ee70-3bee-4bb8-819a-f967876c5380.jpg'
 import avatar_2028_2 from '@/assets/images/avatar/a28a3e54-f9e2-4c25-8589-3cda4f1894c0.jpg'
 import avatar_2028_3 from '@/assets/images/avatar/aa931cee-0648-4755-8c95-c90d1f59ac42.jpg'
+import avatar_2028_4 from '@/assets/images/avatar/default.svg'
 
 export const membersData: Record<string, Member[]> = {
   '2028': [
@@ -71,6 +72,12 @@ export const membersData: Record<string, Member[]> = {
       avatar: avatar_2028_3,
       name: 'Tobeall',
       position: '副部长',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_4,
+      name: '待完善',
+      position: '成员',
       year: '2028',
     },
   ],
