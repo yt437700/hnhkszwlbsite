@@ -4,9 +4,13 @@
     <div class="hero-container">
       <!-- 左侧文字内容 -->
       <div class="hero-left">
-        <h1 class="hero-title">欢迎来到网络部</h1>
+        <h1 class="hero-title d-md-none">欢迎来到网络部</h1>
+        <h1 class="hero-title d-none d-md-block">海口市第四中学网络部</h1>
         <p class="hero-subtitle">Network Department</p>
-        <p class="hero-description">
+        <p class="hero-description d-md-none">
+          隶属于海口市第四中学团委学生会
+        </p>
+        <p class="hero-description d-none d-md-block">
           网络部全名"海口市第四中学团委学生会网络管理部"，隶属于海口市第四中学团委学生会。
         </p>
         <a id="加入我们" href="#members" class="hero-cta">
@@ -34,7 +38,7 @@ const heroImage = computed(() => {
 })
 
 const heroBackgroundStyle = computed(() => ({
-  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0) 100%), url('${heroImage.value}')`
+  backgroundImage: `url('${heroImage.value}')`
 }))
 
 onMounted(() => {
@@ -65,7 +69,7 @@ onMounted(() => {
 }
 
 .hero-left {
-  width: 45%;
+  width: 73%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,8 +78,23 @@ onMounted(() => {
   z-index: 2;
 }
 
+.hero-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-left > * {
+  position: relative;
+  z-index: 2;
+}
+
 .hero-right {
-  width: 55%;
+  width: 68%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -86,6 +105,7 @@ onMounted(() => {
   opacity: 0;
   animation: heroBgFadeIn 0.6s ease forwards;
 }
+
 
 .hero-overlay {
   position: absolute;
@@ -183,14 +203,51 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 992px) {
+
+@media (min-width: 992.1px) {
+
+  .hero-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1.943) 0%,
+      rgba(0, 0, 0, 0.7) 50%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+  }
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
   .hero-left {
-    width: 55%;
+    width: 70%;
     padding: 0 2rem;
   }
 
   .hero-right {
-    width: 45%;
+    width: 100%;
+  }
+
+  .hero-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1.943) 0%,
+      rgba(0, 0, 0, 0.7) 55.0%,
+      rgba(0, 0, 0, 0.4) 78.0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
   }
 
   .hero-title {
@@ -216,7 +273,7 @@ onMounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    background-position: center top;
+    background-position: center -30px;
   }
 
   .hero-overlay {
@@ -229,13 +286,33 @@ onMounted(() => {
 
   .hero-left {
     width: 100%;
-    padding: 60vh 1.2rem 2rem;
-    justify-content: flex-end;
+    padding: 55vh 1.2rem 3rem;
+    justify-content: flex-start;
     text-align: center;
     position: relative;
     z-index: 2;
     min-height: 100vh;
     box-sizing: border-box;
+  }
+
+  .hero-left::before {
+    opacity: 1;
+  }
+
+  .hero-left::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15%;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
   }
 
   .hero-title {
