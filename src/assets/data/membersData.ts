@@ -49,11 +49,38 @@ import avatar_24 from '@/assets/images/avatar/c99d1be3-b86f-4876-b145-f59a989ac1
 import avatar_25 from '@/assets/images/avatar/ed32a27d-ac14-48a8-9075-248c68ca59f2.jpg'
 import avatar_26 from '@/assets/images/avatar/e44bfedb-7c51-4b55-ad11-1af2d95868d0.jpg'
 
-// import avatar_2028_1 from 
+import avatar_2028_1 from '@/assets/images/avatar/default.svg'
+import avatar_2028_2 from  '@/assets/images/avatar/default.svg'
+import avatar_2028_3 from '@/assets/images/avatar/default.svg'
+import avatar_2028_4 from '@/assets/images/avatar/default.svg'
 
 export const membersData: Record<string, Member[]> = {
   '2028': [
 
+    {
+      avatar: avatar_2028_1,
+      name: '待完善',
+      position: '成员',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_2,
+      name: '待完善',
+      position: '成员',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_3,
+      name: '待完善',
+      position: '成员',
+      year: '2028',
+    },
+    {
+      avatar: avatar_2028_4,
+      name: '待完善',
+      position: '成员',
+      year: '2028',
+    },
   ],
   '2027': [
     {
