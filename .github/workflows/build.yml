@@ -13,11 +13,11 @@ jobs:
     steps:
     # 步骤1：获取代码
     - name: 获取源代码
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     # 步骤2：配置Node.js环境
     - name: 配置Node.js环境
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: '22'
         # 缓存node_modules目录，加速后续构建
