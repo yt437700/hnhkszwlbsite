@@ -1,54 +1,26 @@
 <!-- src/components/Sections/ServiceSection.vue -->
 <template>
-  <section id="服务范围" class="bg-white py-5">
-    <div class="container">
-      <!-- 标题区域 -->
-      <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold position-relative d-inline-block mb-3">
-          <span
-            class="position-absolute top-50 start-0 translate-middle-y w-25 border-top border-2 border-warning opacity-75"
-          ></span>
-          <span class="px-3">范围</span>
-          <span
-            class="position-absolute top-50 end-0 translate-middle-y w-25 border-top border-2 border-warning opacity-75"
-          ></span>
-        </h2>
-        <p class="lead text-muted">承办班级、年级、乃至校级和外来的活动</p>
+  <section id="服务范围" class="service-section">
+    <div class="service-container">
+      <div class="service-header">
+        <h2 class="service-title">服务范围</h2>
+        <p class="service-subtitle">Our Service Scope</p>
       </div>
 
-      <!-- 服务范围卡片 -->
-      <div class="row g-4">
-        <div v-for="(service, index) in servicesData" :key="index" class="col-lg-4 col-md-6">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body p-4">
-              <div class="d-flex align-items-center mb-3">
-                <i :class="service.icon" class="fs-4 text-primary me-3"></i>
-                <h4 class="mb-0 fw-bold">{{ service.title }}</h4>
-              </div>
-              <hr class="my-3 border-warning opacity-75" style="border-top-width: 3px" />
-              <p class="card-text">{{ service.description }}</p>
-              <div class="mt-3">
-                <span
-                  v-for="(badge, badgeIndex) in service.badges"
-                  :key="badgeIndex"
-                  class="badge bg-light text-dark border me-2"
-                >
-                  {{ badge }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 预留空位保持布局平衡 -->
-        <div class="col-lg-4 col-md-6">
-          <div class="card h-100 border-0 bg-transparent shadow-none">
-            <div class="card-body d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <i class="bi bi-plus-circle-fill fs-1 text-muted opacity-25"></i>
-                <p class="mt-2 text-muted">期待更多服务可能</p>
-              </div>
-            </div>
+      <div class="service-grid">
+        <div
+          v-for="(service, index) in servicesData"
+          :key="index"
+          class="service-item"
+          ref="serviceItems"
+        >
+          <span class="service-number">{{ String(index + 1).padStart(2, '0') }}</span>
+          <h3 class="service-item-title">{{ service.title }}</h3>
+          <p class="service-item-description">{{ service.description }}</p>
+          <div class="service-tags">
+            <span v-for="(tag, tagIndex) in service.tags" :key="tagIndex" class="service-tag">
+              {{ tag }}
+            </span>
           </div>
         </div>
       </div>
@@ -57,5 +29,174 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import { servicesData } from '@/assets/data/servicesData'
+
+const serviceItems = ref<HTMLElement[]>([])
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+        } else {
+          entry.target.classList.remove('visible')
+        }
+      })
+    },
+    {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    }
+  )
+
+  serviceItems.value.forEach((item) => {
+    if (item) {
+      observer?.observe(item)
+    }
+  })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 </script>
+
+<style scoped>
+.service-section {
+  background: #1a1a1a;
+  padding: 5rem 0;
+}
+
+.service-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.service-header {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.service-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+}
+
+.service-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+.service-item {
+  padding: 1.5rem 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.service-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.service-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.service-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.service-item:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.service-number {
+  display: block;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffc107;
+  opacity: 0.5;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.service-item-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.75rem 0;
+}
+
+.service-item-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 1.25rem 0;
+  line-height: 1.6;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.service-tag {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.service-tag:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .service-section {
+    padding: 3rem 0;
+  }
+
+  .service-title {
+    font-size: 2rem;
+  }
+
+  .service-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .service-number {
+    font-size: 2.5rem;
+  }
+
+  .service-item-title {
+    font-size: 1.25rem;
+  }
+}
+</style>
