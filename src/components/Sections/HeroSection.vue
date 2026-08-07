@@ -1,75 +1,291 @@
 <!-- src/components/Sections/HeroSection.vue -->
 <template>
-  <section class="_bg-white rounded min-vh-100">
-    <div class="position-relative" style="height: 100vh">
-      <!-- 轮播图 -->
-      <div class="carousel slide h-100" data-bs-ride="carousel" id="fullscreenCarousel">
-        <div class="carousel-inner h-100">
-          <div v-for="(slide, index) in slides" :key="index" class="carousel-item h-100"
-            :class="{ active: slide.active }">
-            <img :src="slide.image" class="d-block w-100 h-100" style="object-fit: cover"
-              :alt="slide.alt" />
-          </div>
-        </div>
+  <section class="hero-section">
+    <div class="hero-container">
+      <!-- 左侧文字内容 -->
+      <div class="hero-left">
+        <h1 class="hero-title">欢迎来到网络部</h1>
+        <p class="hero-subtitle">Network Department</p>
+        <p class="hero-description">
+          网络部全名"海口市第四中学团委学生会网络管理部"，隶属于海口市第四中学团委学生会。
+        </p>
+        <a id="加入我们" href="#members" class="hero-cta">
+          <span>加入我们</span>
+        </a>
       </div>
 
-      <!-- 轮播图遮罩 -->
-      <div class="carousel-overlay position-absolute top-0 start-0 w-100 h-100"></div>
-
-      <!-- 主体内容 , 覆盖在轮播图上的内容 -->
-      <div class="position-absolute top-50 start-50 translate-middle text-center text-white w-100 px-3 z-2">
-        <strong class="display-2">欢迎来到网络部</strong>
-        <center>
-          <hr class="col-1 text-warning strong" style="border-top-width: 4px; opacity: 0.8" />
-        </center>
-        <p class="mt-4" style="opacity: 0.75">
-          网络部全名 “ 海口市第四中学团委学生会网络管理部 ”，隶属于 海口市第四中学团委学生会。
-        </p>
-        <noscript>该网页必须启用JavaScript才能正常运行！</noscript>
-        <a id="加入我们" href="#members" class="btn btn-outline-warning text-white"
-          style="border-width: 0.2rem; border-radius: 25px">
-          <div class="p-2 ms-2 me-2">加入我们</div>
-        </a>
+      <!-- 右侧背景图 -->
+      <div class="hero-right" :style="heroBackgroundStyle">
+        <div class="hero-overlay"></div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { heroSlides } from '@/assets/data/heroData'
 
-const slides = heroSlides
+const isImageLoaded = ref(false)
+
+const heroImage = computed(() => {
+  const activeSlide = heroSlides.find(slide => slide.active)
+  return activeSlide?.image || heroSlides[0]?.image || '/images/slide/670613950c57a.jpg'
+})
+
+const heroBackgroundStyle = computed(() => ({
+  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0) 100%), url('${heroImage.value}')`
+}))
+
+onMounted(() => {
+  const img = new Image()
+  img.src = heroImage.value
+  img.onload = () => {
+    isImageLoaded.value = true
+  }
+  img.onerror = () => {
+    isImageLoaded.value = true
+  }
+})
 </script>
 
 <style scoped>
-.carousel-overlay {
-  background: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0.5) 50%,
-      rgba(0, 0, 0, 0.7) 100%);
-  pointer-events: none;
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
 }
 
-.z-2 {
+.hero-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-left {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4rem;
+  position: relative;
   z-index: 2;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .display-2 {
-    font-size: 2rem !important;
-  }
-
+.hero-right {
+  width: 55%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0;
+  animation: heroBgFadeIn 0.6s ease forwards;
 }
 
-@media (max-width: 576px) {
-  .display-2 {
-    font-size: 1.5rem !important;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.15) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroTitleFadeIn 0.6s ease forwards;
+  animation-delay: 0.1s;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroTitleFadeIn 0.6s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+  max-width: 480px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroTitleFadeIn 0.6s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.hero-cta {
+  display: inline-block;
+  border: 1px solid #fdd835;
+  color: #fdd835;
+  background: transparent;
+  border-radius: 6px;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroTitleFadeIn 0.6s ease forwards;
+  animation-delay: 0.4s;
+  width: fit-content;
+}
+
+.hero-cta:hover {
+  background: #fdd835;
+  color: #000;
+}
+
+@keyframes heroBgFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroTitleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-left {
+    width: 55%;
+    padding: 0 2rem;
   }
 
-  .btn {
-    border-width: 0.1rem !important;
-    border-radius: 20px !important;
+  .hero-right {
+    width: 45%;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .hero-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center top;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+  }
+
+  .hero-left {
+    width: 100%;
+    padding: 60vh 1.2rem 2rem;
+    justify-content: flex-end;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    margin: 0 0 0.4rem 0;
+    animation: fadeInMobile 0.5s ease forwards;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin: 0 0 0.6rem 0;
+    animation: fadeInMobile 0.5s ease forwards;
+    animation-delay: 0.1s;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+    max-width: 100%;
+    animation: fadeInMobile 0.5s ease forwards;
+    animation-delay: 0.15s;
+  }
+
+  .hero-cta {
+    min-width: 140px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 0 auto;
+    animation: fadeInMobile 0.5s ease forwards;
+    animation-delay: 0.2s;
+  }
+
+  .hero-cta:hover {
+    background: transparent;
+    color: #fdd835;
+  }
+
+  .hero-cta:active {
+    background: #fdd835;
+    color: #000;
+    box-shadow: 0 0 8px rgba(253, 216, 53, 0.4);
+  }
+
+  @keyframes fadeInMobile {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 </style>
