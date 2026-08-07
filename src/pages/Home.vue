@@ -5,10 +5,10 @@
       <HeroSection />
       <WorkSection />
       <ServiceSection />
-      <PositionsSection />
-      <MembersSection />
       <BenefitsSection />
+      <PositionsSection />
       <GallerySection />
+      <MembersSection />
     </main>
     <Footer />
   </div>

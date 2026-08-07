@@ -46,4 +46,6 @@ server.js
 node_modules
 .vscode/extensions.json
 .vite-ssg-temp/
-todo-doc/*
+
+#todo-document
+todo-doc/
