@@ -8,7 +8,7 @@
       </div>
 
       <div class="members-container">
-        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group">
+        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group" ref="yearRefs">
           <div class="year-header">
             <h3 class="year-title">{{ yearGroup.yearTitle }}</h3>
             <span class="year-line"></span>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { membersData, type Member } from '@/assets/data/membersData'
 import MemberCard from '@/components/UI/MemberCard.vue'
 
@@ -59,6 +59,26 @@ const groupedMembers = computed<YearGroup[]>(() => {
     isLegacy: year === 'legacy',
     members: membersData[year] as Member[],
   }))
+})
+
+const yearRefs = ref<HTMLElement[]>([])
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+        }
+      })
+    },
+    { threshold: 0.15 }
+  )
+
+  yearRefs.value.forEach((el) => {
+    if (el) observer?.observe(el)
+  })
 })
 </script>
 
@@ -101,6 +121,14 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .year-group {
   margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.year-group.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .year-group:last-child {
