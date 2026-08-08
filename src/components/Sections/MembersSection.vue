@@ -1,64 +1,163 @@
 <!-- src/components/Sections/MembersSection.vue -->
 <template>
-  <section id="members" class="py-5 bg-light">
+  <section id="members" class="members-section">
     <div class="container">
-      <div class="row justify-content-center mb-4">
-        <div class="col-lg-8 text-center">
-          <h2 class="display-5 fw-bold mb-3">骨干成员</h2>
-          <p class="lead text-muted">网络部的核心团队</p>
-        </div>
+      <div class="section-header">
+        <h2 class="section-title">骨干成员</h2>
+        <p class="section-subtitle">Network Department Core Team</p>
       </div>
 
-      <template v-for="year in sortedYears" :key="year">
-        <div class="row mb-4">
-          <div class="col-12">
-            <h5 class="text-center border-bottom pb-2 mb-4">{{ getYearTitle(year) }}</h5>
+      <div class="members-container">
+        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group">
+          <div class="year-header">
+            <span class="year-badge">{{ yearGroup.yearTitle }}</span>
           </div>
-          <template v-if="year === 'legacy'">
-            <div v-for="member in membersData[year]" :key="member.name" class="col-auto mb-3">
-              <div class="text-center">
-                <img
-                  :data-src="member.avatar || '/assets/images/avatar/default.jpg'"
-                  class="lazyload rounded-circle img-thumbnail border-warning border-2 mb-2"
-                  width="84"
-                  height="84"
-                  :alt="member.name"
-                />
-                <h6 class="fw-bold mb-1 small">{{ member.name }}</h6>
-                <p class="text-muted small mb-0">{{ member.position }}</p>
-              </div>
+          <div class="members-grid">
+            <div
+              v-for="(member, index) in yearGroup.members"
+              :key="member.name"
+              class="member-item"
+              :style="{ '--delay': `${index * 0.1}s` }"
+            >
+              <MemberCard :member="member" :is-legacy="yearGroup.isLegacy" />
             </div>
-          </template>
-          <template v-else>
-            <div v-for="member in membersData[year]" :key="member.name" class="col mb-3">
-              <MemberCard :member="member" />
-            </div>
-          </template>
+          </div>
         </div>
-      </template>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { membersData } from '@/assets/data/membersData'
+import { membersData, type Member } from '@/assets/data/membersData'
 import MemberCard from '@/components/UI/MemberCard.vue'
 
-const sortedYears = computed(() => {
+interface YearGroup {
+  year: string
+  yearTitle: string
+  isLegacy: boolean
+  members: Member[]
+}
+
+const groupedMembers = computed<YearGroup[]>(() => {
   const years = Object.keys(membersData).filter((key) => {
-    if(membersData[key])
-    return membersData[key]?.length > 0
-  })
-  return years.sort((a, b) => {
+    const data = membersData[key]
+    return data && data.length > 0
+  }) as (keyof typeof membersData)[]
+
+  const sortedYears = years.sort((a, b) => {
     if (a === 'legacy') return 1
     if (b === 'legacy') return -1
     return parseInt(b) - parseInt(a)
   })
-})
 
-const getYearTitle = (year: string) => {
-  if (year === 'legacy') return '往届骨干'
-  return `${year}届骨干`
-}
+  return sortedYears.map((year) => ({
+    year,
+    yearTitle: year === 'legacy' ? '往届骨干' : `${year}届骨干`,
+    isLegacy: year === 'legacy',
+    members: membersData[year] as Member[],
+  }))
+})
 </script>
+
+<style scoped>
+.members-section {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.members-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.year-group {
+  margin-bottom: 3.5rem;
+}
+
+.year-group:last-child {
+  margin-bottom: 0;
+}
+
+.year-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.year-badge {
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.members-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.member-item {
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .members-section {
+    padding: 3rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .year-group {
+    margin-bottom: 2.5rem;
+  }
+
+  .members-grid {
+    gap: 1rem;
+  }
+}
+</style>
