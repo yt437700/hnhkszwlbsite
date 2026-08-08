@@ -4,12 +4,14 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">骨干成员</h2>
+        <p class="section-subtitle">CORE MEMBERS</p>
       </div>
 
       <div class="members-container">
         <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group">
           <div class="year-header">
             <h3 class="year-title">{{ yearGroup.yearTitle }}</h3>
+            <span class="year-line"></span>
           </div>
           <div class="members-grid">
             <div
@@ -53,7 +55,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
   return sortedYears.map((year) => ({
     year,
-    yearTitle: year === 'legacy' ? '往届骨干' : `${year}届骨干`,
+    yearTitle: year === 'legacy' ? '往届骨干' : `${year}届`,
     isLegacy: year === 'legacy',
     members: membersData[year] as Member[],
   }))
@@ -63,18 +65,33 @@ const groupedMembers = computed<YearGroup[]>(() => {
 <style scoped>
 .members-section {
   background: #1a1a1a;
-  padding: 4rem 0;
+  padding: 5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .section-title {
-  font-size: 2rem;
-  color: #f8f9fa;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
   margin: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0.75rem 0 0 0;
+  letter-spacing: 0.2em;
 }
 
 .members-container {
@@ -83,7 +100,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
 }
 
 .year-group {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .year-group:last-child {
@@ -97,30 +114,40 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .year-title {
   font-size: 1.1rem;
-  color: #adb5bd;
-  margin: 0;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 0.75rem 0;
+}
+
+.year-line {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 auto;
 }
 
 .members-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .member-item {
-  animation: fadeIn 0.3s ease forwards;
-  animation-delay: var(--delay);
   opacity: 0;
+  animation: reveal 0.4s ease forwards;
+  animation-delay: var(--delay);
 }
 
-@keyframes fadeIn {
+@keyframes reveal {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -129,12 +156,24 @@ const groupedMembers = computed<YearGroup[]>(() => {
     padding: 3rem 0;
   }
 
+  .container {
+    padding: 0 1rem;
+  }
+
   .section-title {
     font-size: 1.75rem;
   }
 
+  .section-subtitle {
+    font-size: 0.875rem;
+  }
+
   .year-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .members-grid {
+    gap: 0.75rem;
   }
 }
 </style>
