@@ -69,21 +69,18 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .section-title {
   font-size: 2.5rem;
   color: #2c3e50;
   margin-bottom: 0.5rem;
-  font-weight: 700;
 }
 
 .section-subtitle {
   color: #6c757d;
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-size: 1rem;
 }
 
 .members-container {
@@ -106,20 +103,19 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .year-badge {
   display: inline-block;
-  padding: 0.5rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-size: 1.25rem;
+  padding: 0.5rem 1.5rem;
+  background: #ffc107;
+  color: #212529;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  border-radius: 0.25rem;
 }
 
 .members-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .member-item {
