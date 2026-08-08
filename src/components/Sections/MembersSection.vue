@@ -8,7 +8,7 @@
       </div>
 
       <div class="members-container">
-        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group" ref="yearRefs">
+        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group">
           <div class="year-header">
             <h3 class="year-title">{{ yearGroup.yearTitle }}</h3>
             <span class="year-line"></span>
@@ -18,7 +18,7 @@
               v-for="(member, index) in yearGroup.members"
               :key="member.name"
               class="member-item"
-              :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
+              :ref="(el) => { if (el) cardRefs.push(el as HTMLElement) }"
             >
               <MemberCard :member="member" :is-legacy="yearGroup.isLegacy" />
             </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onBeforeUpdate, ref } from 'vue'
 import { membersData, type Member } from '@/assets/data/membersData'
 import MemberCard from '@/components/UI/MemberCard.vue'
 
@@ -63,6 +63,10 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 const cardRefs = ref<HTMLElement[]>([])
 let observer: IntersectionObserver | null = null
+
+onBeforeUpdate(() => {
+  cardRefs.value = []
+})
 
 onMounted(() => {
   observer = new IntersectionObserver(
