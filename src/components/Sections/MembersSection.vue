@@ -3,7 +3,7 @@
   <section id="members" class="members-section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">骨干成员</h2>
+        <h2 class="section-title">核心成员</h2>
         <p class="section-subtitle">CORE MEMBERS</p>
       </div>
 
