@@ -134,9 +134,21 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba($color-bg-dark, 0.7);
   border-bottom: 1px solid $color-border-soft;
   box-shadow: $shadow-navbar;
+
+  /* 半透明深色底 + 2px 背景模糊。
+     用伪元素承载 backdrop-filter，避免在 .site-navbar 上直接加 filter
+     （那会让该元素成为 fixed 后代的包含块，破坏移动端全屏遮罩的定位）。 */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba($color-bg-dark, 0.7);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
 }
 
 .site-navbar__inner {
