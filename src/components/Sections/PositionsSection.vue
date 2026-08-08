@@ -3,7 +3,7 @@
     <div class="positions-container">
       <div class="positions-header">
         <h2 class="positions-title">部门内岗位</h2>
-        <p class="positions-subtitle">POSITIONS</p>
+        <p class="positions-subtitle">POSITIONS IN DEPARTMENT</p>
       </div>
 
       <div class="positions-layout">
