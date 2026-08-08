@@ -80,7 +80,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .section-subtitle {
   color: #6c757d;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .members-container {
@@ -89,7 +89,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
 }
 
 .year-group {
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 
 .year-group:last-child {
@@ -98,7 +98,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
 
 .year-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .year-badge {
@@ -149,11 +149,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
   }
 
   .year-group {
-    margin-bottom: 2.5rem;
-  }
-
-  .members-grid {
-    gap: 1rem;
+    margin-bottom: 2rem;
   }
 }
 </style>
