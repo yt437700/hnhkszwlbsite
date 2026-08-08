@@ -1,89 +1,64 @@
-<!-- src/components/Sections/PositionsSection.vue -->
 <template>
-  <section class="job-section">
-    <div class="container">
-      <div class="row justify-content-center mb-4">
-        <div class="col-lg-10 text-center">
-          <h2 class="section-title">部门内岗位</h2>
-          <p class="lead text-muted">每个岗位都对应着不同的专业方面，共同组成高效的技术部门</p>
-        </div>
+  <section class="positions-section" id="部门内岗位">
+    <div class="positions-container">
+      <div class="positions-header">
+        <h2 class="positions-title">部门内岗位</h2>
+        <p class="positions-subtitle">DEPARTMENT POSITIONS</p>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <div class="job-tabs">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs justify-content-center" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  :class="{ active: activeTab === 'intro' }"
-                  @click="activeTab = 'intro'"
-                >
-                  <i class="bi bi-info-circle me-2"></i>简介
-                </button>
-              </li>
-              <li
-                v-for="position in positionsData"
-                :key="position.id"
-                class="nav-item"
-                role="presentation"
-              >
-                <button
-                  class="nav-link"
-                  :class="{ active: activeTab === position.id }"
-                  @click="activeTab = position.id"
-                >
-                  <i :class="position.icon" class="me-2"></i>{{ position.title }}
-                </button>
-              </li>
-            </ul>
+      <div class="positions-layout">
+        <div class="positions-sidebar">
+          <div class="positions-list">
+            <button
+              v-for="(position, index) in positionsData"
+              :key="position.id"
+              class="position-item"
+              :class="{ active: activeId === position.id }"
+              @click="activeId = position.id"
+            >
+              <span class="position-number">{{ String(index + 1).padStart(2, '0') }}</span>
+              <span class="position-name">{{ position.title }}</span>
+              <i class="bi bi-arrow-right position-arrow"></i>
+            </button>
+          </div>
+        </div>
 
-            <!-- Tab panes -->
-            <div class="tab-content mt-4">
-              <!-- 简介标签页 -->
-              <div v-if="activeTab === 'intro'" class="tab-pane fade show active">
-                <div class="job-card card">
-                  <div class="card-body text-center py-5">
-                    <i class="bi bi-info-circle job-icon mb-4"></i>
-                    <h3 class="card-title">点击上方选项卡查看各岗位详情</h3>
-                    <p class="card-text text-muted mt-3">
-                      我们由多个专业岗位组成，每个岗位都承担着独特而重要的职责。<br />
-                      选择您感兴趣的岗位了解更多信息，探索您最适合的角色。
-                    </p>
-                    <div class="mt-4">
-                      <div class="stats-container">
-                        <div class="row">
-                          <div class="col-md-3 col-6 mb-3">
-                            <div class="stat-value">4+</div>
-                            <div class="stat-label">专业岗位</div>
-                          </div>
-                          <div class="col-md-3 col-6 mb-3">
-                            <div class="stat-value">30+<sup>*1</sup></div>
-                            <div class="stat-label">部门成员</div>
-                          </div>
-                          <div class="col-md-3 col-6 mb-3">
-                            <div class="stat-value">98%</div>
-                            <div class="stat-label">活动成功率</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+        <div class="positions-detail" ref="detailRef">
+          <Transition name="fade-slide" mode="out-in">
+            <div :key="activePosition.id" class="detail-content">
+              <div class="detail-header">
+                <div class="detail-title-wrap">
+                  <span class="detail-number">{{ String(positionsData.indexOf(activePosition) + 1).padStart(2, '0') }}</span>
+                  <h3 class="detail-title">{{ activePosition.title }}</h3>
+                  <p class="detail-subtitle">{{ activePosition.subtitle }}</p>
+                </div>
+                <i :class="activePosition.icon" class="detail-icon"></i>
+              </div>
+
+              <div class="detail-body">
+                <p class="detail-description">{{ activePosition.description }}</p>
+
+                <div class="detail-section">
+                  <h4 class="section-label">核心要求</h4>
+                  <ul class="requirements-list">
+                    <li v-for="(req, index) in activePosition.requirements" :key="index">
+                      <i class="bi bi-check2"></i>
+                      <span>{{ req }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="detail-section">
+                  <h4 class="section-label">技能标签</h4>
+                  <div class="skills-tags">
+                    <span v-for="(skill, index) in activePosition.skills" :key="index" class="skill-tag">
+                      {{ skill }}
+                    </span>
                   </div>
                 </div>
               </div>
-
-              <!-- 岗位详情标签页 -->
-              <div
-                v-for="position in positionsData"
-                :key="position.id"
-                class="tab-pane fade"
-                :class="{ 'show active': activeTab === position.id }"
-              >
-                <PositionCard :position="position" />
-              </div>
             </div>
-          </div>
+          </Transition>
         </div>
       </div>
     </div>
@@ -91,55 +66,362 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { positionsData } from '@/assets/data/positionsData'
-import PositionCard from '@/components/UI/PositionCard.vue'
 
-const activeTab = ref('intro')
+const activeId = ref(positionsData[0]?.id || 'director')
+const detailRef = ref<HTMLElement>()
+
+const activePosition = computed(() => {
+  return positionsData.find(p => p.id === activeId.value) ?? positionsData[0]!
+})
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+        }
+      })
+    },
+    { threshold: 0.2 }
+  )
+
+  if (detailRef.value) {
+    observer.observe(detailRef.value)
+  }
+})
 </script>
 
 <style scoped>
-.job-section {
+.positions-section {
+  background: #1a1a1a;
   padding: 5rem 0;
-  background: #f8f9fa;
+  min-height: 1vh;
 }
 
-.section-title {
+.positions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+    margin-bottom: 5rem;
+}
+
+.positions-header {
+  margin-bottom: 2rem;
+}
+
+.positions-title {
   font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
 }
 
-.job-tabs .nav-tabs {
-  border-bottom: 2px solid #dee2e6;
+.positions-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  letter-spacing: 0.2em;
 }
 
-.job-tabs .nav-link {
-  color: #6c757d;
-  border: none;
-  padding: 1rem 1.5rem;
-  transition: all 0.3s;
+.positions-layout {
+  display: flex;
+  gap: 3rem;
 }
 
-.job-tabs .nav-link:hover {
-  color: #495057;
-  background-color: #f8f9fa;
+.positions-sidebar {
+  flex: 0 0 320px;
 }
 
-.job-tabs .nav-link.active {
+.positions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.position-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.position-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.position-item.active {
+  background: rgba(0, 123, 255, 0.15);
+  border-color: #007bff;
+  color: #fff;
+}
+
+.position-number {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: monospace;
+}
+
+.position-item.active .position-number {
   color: #007bff;
-  background-color: white;
-  border-bottom: 3px solid #007bff;
 }
 
-.stat-value {
-  font-size: 2rem;
-  font-weight: bold;
+.position-name {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.position-arrow {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
   color: #007bff;
 }
 
-.stat-label {
-  color: #6c757d;
-  font-size: 0.9rem;
+.position-item.active .position-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.positions-detail {
+  flex: 1;
+  min-height: 420px;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.positions-detail.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.detail-content {
+  min-height: 420px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-number {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #007bff;
+  font-family: monospace;
+  margin-bottom: 0.5rem;
+}
+
+.detail-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+}
+
+.detail-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.detail-icon {
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.requirements-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.requirements-list i {
+  color: #28a745;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.skill-tag:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+@media (max-width: 992px) {
+  .positions-section {
+    padding: 3rem 0;
+  }
+
+  .positions-layout {
+    flex-direction: column;
+  }
+
+  .positions-sidebar {
+    flex: none;
+    width: 100%;
+  }
+
+  .positions-list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .position-item {
+    flex: 1 1 auto;
+    min-width: 100px;
+    padding: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .position-number {
+    display: none;
+  }
+
+  .position-arrow {
+    display: none;
+  }
+
+  .positions-detail {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 230px) {
+  .positions-container {
+    padding: 0 1rem;
+  }
+
+  .positions-title {
+    font-size: 2rem;
+  }
+
+  .positions-list {
+    flex-wrap: wrap;
+  }
+
+  .position-item {
+    flex: 1 1 100%;
+    flex-direction: row;
+    text-align: left;
+    padding: 1rem;
+  }
+
+  .position-number {
+    display: inline;
+  }
+
+  .position-arrow {
+    display: inline;
+  }
+
+  .detail-content {
+    padding: 1.5rem;
+  }
+
+  .detail-title {
+    font-size: 1.5rem;
+  }
 }
 </style>

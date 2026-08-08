@@ -48,4 +48,4 @@ node_modules
 .vite-ssg-temp/
 
 #todo-document
-.todo.md
+todo-doc/

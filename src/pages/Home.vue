@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/components/Layout/Navbar.vue'
 import Footer from '@/components/Layout/Footer.vue'
 import HeroSection from '@/components/Sections/HeroSection.vue'
 import WorkSection from '@/components/Sections/WorkSection.vue'
