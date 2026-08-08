@@ -14,7 +14,7 @@
                 <a
                   id="进群链接"
                   href="https://qm.qq.com/q/HWrYTzo2EU"
-                  class="text-decoration-none ms-2 text-muted"
+                  class="text-decoration-none ms-2 text-primary"
                   target="_blank"
                 >
                   点击跳转加入群聊
