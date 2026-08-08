@@ -18,7 +18,7 @@
               v-for="(member, index) in yearGroup.members"
               :key="member.name"
               class="member-item"
-              :style="{ '--delay': `${index * 0.05}s` }"
+              :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
             >
               <MemberCard :member="member" :is-legacy="yearGroup.isLegacy" />
             </div>
@@ -61,7 +61,7 @@ const groupedMembers = computed<YearGroup[]>(() => {
   }))
 })
 
-const yearRefs = ref<HTMLElement[]>([])
+const cardRefs = ref<HTMLElement[]>([])
 let observer: IntersectionObserver | null = null
 
 onMounted(() => {
@@ -73,10 +73,10 @@ onMounted(() => {
         }
       })
     },
-    { threshold: 0.15 }
+    { threshold: 0.1 }
   )
 
-  yearRefs.value.forEach((el) => {
+  cardRefs.value.forEach((el) => {
     if (el) observer?.observe(el)
   })
 })
@@ -121,14 +121,6 @@ onMounted(() => {
 
 .year-group {
   margin-bottom: 3rem;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.year-group.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .year-group:last-child {
@@ -164,19 +156,13 @@ onMounted(() => {
 
 .member-item {
   opacity: 0;
-  animation: reveal 0.4s ease forwards;
-  animation-delay: var(--delay);
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.member-item.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
