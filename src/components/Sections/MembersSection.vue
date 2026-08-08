@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUpdate, ref } from 'vue'
+import { computed, onMounted, onBeforeUpdate, onUnmounted, ref } from 'vue'
 import { membersData, type Member } from '@/assets/data/membersData'
 import MemberCard from '@/components/UI/MemberCard.vue'
 
@@ -74,15 +74,24 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible')
+        } else {
+          entry.target.classList.remove('visible')
         }
       })
     },
-    { threshold: 0.1 }
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
   )
 
   cardRefs.value.forEach((el) => {
     if (el) observer?.observe(el)
   })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
 })
 </script>
 
