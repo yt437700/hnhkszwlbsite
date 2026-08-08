@@ -1,64 +1,206 @@
 <!-- src/components/Sections/MembersSection.vue -->
 <template>
-  <section id="members" class="py-5 bg-light">
+  <section id="members" class="members-section">
     <div class="container">
-      <div class="row justify-content-center mb-4">
-        <div class="col-lg-8 text-center">
-          <h2 class="display-5 fw-bold mb-3">骨干成员</h2>
-          <p class="lead text-muted">网络部的核心团队</p>
-        </div>
+      <div class="section-header">
+        <h2 class="section-title">核心成员</h2>
+        <p class="section-subtitle">CORE MEMBERS</p>
       </div>
 
-      <template v-for="year in sortedYears" :key="year">
-        <div class="row mb-4">
-          <div class="col-12">
-            <h5 class="text-center border-bottom pb-2 mb-4">{{ getYearTitle(year) }}</h5>
+      <div class="members-container">
+        <div v-for="yearGroup in groupedMembers" :key="yearGroup.year" class="year-group">
+          <div class="year-header">
+            <h3 class="year-title">{{ yearGroup.yearTitle }}</h3>
+            <span class="year-line"></span>
           </div>
-          <template v-if="year === 'legacy'">
-            <div v-for="member in membersData[year]" :key="member.name" class="col-auto mb-3">
-              <div class="text-center">
-                <img
-                  :data-src="member.avatar || '/assets/images/avatar/default.jpg'"
-                  class="lazyload rounded-circle img-thumbnail border-warning border-2 mb-2"
-                  width="84"
-                  height="84"
-                  :alt="member.name"
-                />
-                <h6 class="fw-bold mb-1 small">{{ member.name }}</h6>
-                <p class="text-muted small mb-0">{{ member.position }}</p>
-              </div>
+          <div class="members-grid">
+            <div
+              v-for="(member, index) in yearGroup.members"
+              :key="member.name"
+              class="member-item"
+              :ref="(el) => { if (el) cardRefs.push(el as HTMLElement) }"
+            >
+              <MemberCard :member="member" :is-legacy="yearGroup.isLegacy" />
             </div>
-          </template>
-          <template v-else>
-            <div v-for="member in membersData[year]" :key="member.name" class="col mb-3">
-              <MemberCard :member="member" />
-            </div>
-          </template>
+          </div>
         </div>
-      </template>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { membersData } from '@/assets/data/membersData'
+import { computed, onMounted, onBeforeUpdate, onUnmounted, ref } from 'vue'
+import { membersData, type Member } from '@/assets/data/membersData'
 import MemberCard from '@/components/UI/MemberCard.vue'
 
-const sortedYears = computed(() => {
+interface YearGroup {
+  year: string
+  yearTitle: string
+  isLegacy: boolean
+  members: Member[]
+}
+
+const groupedMembers = computed<YearGroup[]>(() => {
   const years = Object.keys(membersData).filter((key) => {
-    if(membersData[key])
-    return membersData[key]?.length > 0
-  })
-  return years.sort((a, b) => {
+    const data = membersData[key]
+    return data && data.length > 0
+  }) as (keyof typeof membersData)[]
+
+  const sortedYears = years.sort((a, b) => {
     if (a === 'legacy') return 1
     if (b === 'legacy') return -1
     return parseInt(b) - parseInt(a)
   })
+
+  return sortedYears.map((year) => ({
+    year,
+    yearTitle: year === 'legacy' ? '往届骨干' : `${year}届`,
+    isLegacy: year === 'legacy',
+    members: membersData[year] as Member[],
+  }))
 })
 
-const getYearTitle = (year: string) => {
-  if (year === 'legacy') return '往届骨干'
-  return `${year}届骨干`
-}
+const cardRefs = ref<HTMLElement[]>([])
+let observer: IntersectionObserver | null = null
+
+onBeforeUpdate(() => {
+  cardRefs.value = []
+})
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+        } else {
+          entry.target.classList.remove('visible')
+        }
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    }
+  )
+
+  cardRefs.value.forEach((el) => {
+    if (el) observer?.observe(el)
+  })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 </script>
+
+<style scoped>
+.members-section {
+  background: #1a1a1a;
+  padding: 5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0.75rem 0 0 0;
+  letter-spacing: 0.2em;
+}
+
+.members-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.year-group {
+  margin-bottom: 3rem;
+}
+
+.year-group:last-child {
+  margin-bottom: 0;
+}
+
+.year-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.year-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 0.75rem 0;
+}
+
+.year-line {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 auto;
+}
+
+.members-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.member-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.member-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .members-section {
+    padding: 3rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .year-group {
+    margin-bottom: 2rem;
+  }
+
+  .members-grid {
+    gap: 0.75rem;
+  }
+}
+</style>
